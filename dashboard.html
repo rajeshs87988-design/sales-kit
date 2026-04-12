@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reputation Suite | Executive Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background: radial-gradient(circle at top left, #111827, #000000); min-height: 100vh; color: white; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .glow-text { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-3xl font-bold glow-text">Reputation Shield <span class="text-blue-500">PRO</span></h1>
+                <p class="text-gray-400 text-sm">Real-time Analytics for [Business Name]</p>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-gray-500 uppercase">System Status</div>
+                <div class="flex items-center text-green-400 text-sm"><span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span> Protected</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="glass p-6">
+                <div class="text-gray-400 text-sm mb-1">Total Interactions</div>
+                <div class="text-4xl font-black" id="totalCount">--</div>
+            </div>
+            <div class="glass p-6 border-l-4 border-blue-500">
+                <div class="text-gray-400 text-sm mb-1">Reviews Filtered</div>
+                <div class="text-4xl font-black text-blue-400" id="filteredCount">--</div>
+            </div>
+            <div class="glass p-6">
+                <div class="text-gray-400 text-sm mb-1">Health Score</div>
+                <div class="text-4xl font-black text-emerald-400">98%</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass p-6">
+                <h3 class="font-bold mb-4">Feedback Trend</h3>
+                <canvas id="reputationChart" height="200"></canvas>
+            </div>
+            <div class="glass p-6 overflow-hidden">
+                <h3 class="font-bold mb-4">Recent Private Complaints</h3>
+                <div id="feedbackList" class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                    <p class="text-gray-500 italic">Connecting to secure database...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // REPLACE THIS with your Google Sheet CSV Link
+        // (File > Share > Publish to Web > Select 'Feedback' tab > Format 'CSV')
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTZ7eNSIZljkJ8GiGV0G5UwWfmzttG165P_cNIyTGjYzF2Qcb87kJFJ6OsQtdNxAQH1O5J1fy0dFvaK/pub?gid=0&single=true&output=csv";
+
+        async function updateDashboard() {
+    try {
+        // We add a proxy service to the front of your URL to bypass security
+        const proxy = "https://api.allorigins.win/raw?url=";
+        const response = await fetch(proxy + encodeURIComponent(CSV_URL));
+        const data = await response.text();
+        
+        const rows = data.split('\n').filter(row => row.trim() !== ''); 
+        const feedbackRows = rows.slice(1);
+
+        // Update the UI
+        document.getElementById('totalCount').innerText = feedbackRows.length;
+        document.getElementById('filteredCount').innerText = feedbackRows.length;
+
+        const list = document.getElementById('feedbackList');
+        list.innerHTML = ''; 
+        
+        feedbackRows.reverse().forEach(row => {
+            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+            if(cols[2]) {
+                const item = document.createElement('div');
+                item.className = "p-3 bg-white/5 rounded-xl border border-white/10 text-sm mb-3 animate-pulse";
+                item.innerHTML = `
+                    <div class='text-blue-400 text-xs mb-1 font-mono'>${cols[0]}</div>
+                    <div class='text-gray-200'>${cols[2].replace(/"/g, '')}</div>
+                `;
+                list.appendChild(item);
+                // Remove pulse after 1 second
+                setTimeout(() => item.classList.remove('animate-pulse'), 1000);
+            }
+        });
+    } catch (error) {
+        console.error("Dashboard Error:", error);
+    }
+}
+
+        // Initialize Chart
+        const ctx = document.getElementById('reputationChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Captured Feedback',
+                    data: [2, 5, 3, 8, 4, 10, 3],
+                    borderColor: '#3b82f6',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }]
+            },
+            options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
+        });
+
+        updateDashboard();
+    </script>
+</body>
+</html>
