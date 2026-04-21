@@ -3,117 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reputation Suite | Executive Portal</title>
+    <title>Sales Toolkit | ARS Empire</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background: radial-gradient(circle at top left, #111827, #000000); min-height: 100vh; color: white; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
-        .glow-text { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+        body { background: #000; color: white; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .action-card { 
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+        .action-card:hover { border-color: #3b82f6; }
+        .action-card:active { transform: scale(0.98); }
+        .step-pill { background: #3b82f6; color: white; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; }
+        .error-hidden { display: none; }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
-            <div>
-                <h1 class="text-3xl font-bold glow-text">Reputation Shield <span class="text-blue-500">PRO</span></h1>
-                <p class="text-gray-400 text-sm">Real-time Analytics for [Business Name]</p>
-            </div>
-            <div class="text-right">
-                <div class="text-xs text-gray-500 uppercase">System Status</div>
-                <div class="flex items-center text-green-400 text-sm"><span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span> Protected</div>
-            </div>
-        </div>
+<body class="p-5 max-w-md mx-auto pb-20">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="glass p-6">
-                <div class="text-gray-400 text-sm mb-1">Total Interactions</div>
-                <div class="text-4xl font-black" id="totalCount">--</div>
-            </div>
-            <div class="glass p-6 border-l-4 border-blue-500">
-                <div class="text-gray-400 text-sm mb-1">Reviews Filtered</div>
-                <div class="text-4xl font-black text-blue-400" id="filteredCount">--</div>
-            </div>
-            <div class="glass p-6">
-                <div class="text-gray-400 text-sm mb-1">Health Score</div>
-                <div class="text-4xl font-black text-emerald-400">98%</div>
-            </div>
-        </div>
+    <div id="errorState" class="hidden text-center py-20">
+        <h1 class="text-4xl font-black text-red-500">404</h1>
+        <p class="text-gray-500 text-sm">Invalid Partner ID.<br>Please contact ARS Admin.</p>
+    </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="glass p-6">
-                <h3 class="font-bold mb-4">Feedback Trend</h3>
-                <canvas id="reputationChart" height="200"></canvas>
+    <div id="masterContent">
+        <header class="text-center mb-10 pt-6">
+            <h1 class="text-2xl font-black tracking-tighter uppercase text-blue-500 italic">ARS Empire</h1>
+            <div id="partnerName" class="mt-2 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-4 py-1 rounded-full border border-emerald-500/20 inline-block uppercase tracking-widest">
+                Partner Loading...
             </div>
-            <div class="glass p-6 overflow-hidden">
-                <h3 class="font-bold mb-4">Recent Private Complaints</h3>
-                <div id="feedbackList" class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
-                    <p class="text-gray-500 italic">Connecting to secure database...</p>
+        </header>
+
+        <section class="space-y-4 mb-10">
+            <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest px-2">Live Demo Links</h2>
+            
+            <a id="filterLink" href="#" target="_blank" class="action-card p-5 flex items-center justify-between block">
+                <div>
+                    <span class="step-pill mb-2 inline-block text-xs italic">Step 1</span>
+                    <h3 class="font-bold text-lg">The Filter Demo</h3>
+                    <p class="text-gray-500 text-xs italic">Simulate an unhappy customer.</p>
                 </div>
-            </div>
-        </div>
+                <div class="text-blue-500 text-2xl">→</div>
+            </a>
+
+            <a id="dashLink" href="#" target="_blank" class="action-card p-5 flex items-center justify-between block">
+                <div>
+                    <span class="step-pill mb-2 inline-block text-xs italic">Step 2</span>
+                    <h3 class="font-bold text-lg">The Dashboard</h3>
+                    <p class="text-gray-500 text-xs">Verify the private result.</p>
+                </div>
+                <div class="text-blue-500 text-2xl">→</div>
+            </a>
+        </section>
+
+        <section class="space-y-4 mb-10">
+            <h2 class="text-xs font-bold text-emerald-500 uppercase tracking-widest px-2 font-black italic">Close the Deal</h2>
+            
+            <a id="payLink" href="#" target="_blank" class="action-card p-6 border-emerald-500/30 bg-emerald-500/5 block text-center">
+                <p class="text-[10px] font-bold text-emerald-500 uppercase mb-1">Secure Checkout</p>
+                <h3 class="font-black text-2xl italic mb-2 tracking-tight">COLLECT ₹10,000</h3>
+                <p class="text-gray-400 text-[10px]">Instant Activation Link for Clients</p>
+            </a>
+        </section>
+
+        <section class="action-card p-6 bg-white/5 border-white/10">
+            <h2 class="text-sm font-black mb-4 uppercase tracking-tight text-blue-400 border-b border-white/5 pb-2">Process Logic</h2>
+            <ul class="space-y-4">
+                <li class="flex gap-3">
+                    <span class="text-blue-500 font-bold text-xs">01</span>
+                    <p class="text-[11px] text-gray-400 leading-relaxed"><strong class="text-white">Registration:</strong> Client fills form with Business Name, Logo, and Maps Link.</p>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-blue-500 font-bold text-xs">02</span>
+                    <p class="text-[11px] text-gray-400 leading-relaxed"><strong class="text-white">Custom Build:</strong> Admin creates the personalized shield within 2-4 hours.</p>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-blue-500 font-bold text-xs">03</span>
+                    <p class="text-[11px] text-gray-400 leading-relaxed"><strong class="text-white">QR Delivery:</strong> We send print-ready QR kit to the client's WhatsApp.</p>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-blue-500 font-bold text-xs">04</span>
+                    <p class="text-[11px] text-gray-400 leading-relaxed"><strong class="text-white">Commission:</strong> Send screenshot to Admin. Receive <span class="text-emerald-400 font-bold">₹5,000</span> instantly.</p>
+                </li>
+            </ul>
+        </section>
+
+        <footer class="mt-10 text-center">
+            <p class="text-[9px] text-gray-600 font-mono tracking-widest uppercase italic">Property of ARS Empire Internal Sales</p>
+        </footer>
     </div>
 
     <script>
-        // REPLACE THIS with your Google Sheet CSV Link
-        // (File > Share > Publish to Web > Select 'Feedback' tab > Format 'CSV')
-        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTZ7eNSIZljkJ8GiGV0G5UwWfmzttG165P_cNIyTGjYzF2Qcb87kJFJ6OsQtdNxAQH1O5J1fy0dFvaK/pub?gid=0&single=true&output=csv";
-
-        async function updateDashboard() {
-    try {
-        // We add a proxy service to the front of your URL to bypass security
-        const proxy = "https://api.allorigins.win/raw?url=";
-        const response = await fetch(proxy + encodeURIComponent(CSV_URL));
-        const data = await response.text();
-        
-        const rows = data.split('\n').filter(row => row.trim() !== ''); 
-        const feedbackRows = rows.slice(1);
-
-        // Update the UI
-        document.getElementById('totalCount').innerText = feedbackRows.length;
-        document.getElementById('filteredCount').innerText = feedbackRows.length;
-
-        const list = document.getElementById('feedbackList');
-        list.innerHTML = ''; 
-        
-        feedbackRows.reverse().forEach(row => {
-            const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
-            if(cols[2]) {
-                const item = document.createElement('div');
-                item.className = "p-3 bg-white/5 rounded-xl border border-white/10 text-sm mb-3 animate-pulse";
-                item.innerHTML = `
-                    <div class='text-blue-400 text-xs mb-1 font-mono'>${cols[0]}</div>
-                    <div class='text-gray-200'>${cols[2].replace(/"/g, '')}</div>
-                `;
-                list.appendChild(item);
-                // Remove pulse after 1 second
-                setTimeout(() => item.classList.remove('animate-pulse'), 1000);
-            }
-        });
-    } catch (error) {
-        console.error("Dashboard Error:", error);
-    }
-}
-
-        // Initialize Chart
-        const ctx = document.getElementById('reputationChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Captured Feedback',
-                    data: [2, 5, 3, 8, 4, 10, 3],
-                    borderColor: '#3b82f6',
-                    tension: 0.4,
-                    fill: true,
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
-                }]
+        // MASTER DATABASE - Edit names and links here
+        const partners = {
+            "1": {
+                name: "Rajesh Sharma",
+                filter: "https://rajeshs87988-design.github.io/review-page-demo/Review_Filter.html",
+                dash: "https://rajeshs87988-design.github.io/reputation-shield-demo/dashboard.html",
+                pay: "https://imjo.in/YOUR_LINK_1"
             },
-            options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
-        });
+            "2": {
+                name: "Amit Patel",
+                filter: "https://rajeshs87988-design.github.io/review-page-demo/Review_Filter.html",
+                dash: "https://rajeshs87988-design.github.io/reputation-shield-demo/dashboard.html",
+                pay: "https://imjo.in/YOUR_LINK_2"
+            }
+        };
 
-        updateDashboard();
+        // ID LOGIC
+        const params = new URLSearchParams(window.location.search);
+        const partnerID = params.get('id');
+
+        if (partners[partnerID]) {
+            const p = partners[partnerID];
+            document.getElementById('partnerName').innerText = "Partner: " + p.name;
+            document.getElementById('filterLink').href = p.filter;
+            document.getElementById('dashLink').href = p.dash;
+            document.getElementById('payLink').href = p.pay;
+        } else {
+            document.getElementById('masterContent').classList.add('hidden');
+            document.getElementById('errorState').classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
